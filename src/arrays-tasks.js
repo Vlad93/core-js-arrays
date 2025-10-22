@@ -359,8 +359,19 @@ function calculateBalance(arr) {
  *    createChunks(['a', 'b', 'c', 'd', 'e'], 2) => [['a', 'b'], ['c', 'd'], ['e']]
  *    createChunks([10, 20, 30, 40, 50], 1) => [[10], [20], [30], [40], [50]]
  */
-function createChunks(/* arr, chunkSize */) {
-  throw new Error('Not implemented');
+function createChunks(arr, chunkSize) {
+  let lastPushIdx = 0;
+  const resultArr = arr.reduce((acc, item, idx) => {
+    if ((idx + 1) % chunkSize === 0) {
+      lastPushIdx = idx;
+      acc.push([...arr.slice(idx - chunkSize + 1, idx + 1)]);
+    }
+    return acc;
+  }, []);
+  if (lastPushIdx !== arr.length - 1) {
+    resultArr.push([...arr.slice(lastPushIdx + 1)]);
+  }
+  return resultArr;
 }
 
 /**
